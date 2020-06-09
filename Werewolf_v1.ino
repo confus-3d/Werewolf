@@ -26,6 +26,7 @@ int asigned;
 int character;
 int brightness = 0;
 int showcharacter = 0; // Turn 1 for debug and see the character asignation
+int startgame = 0;
 
 #define WOLFS 2 //Up to 5 wolfs
 enum wolf {WY, WN};
@@ -225,33 +226,38 @@ void asignLoop() {
 
 void gameLoop() {
   resetFunction(); 
-  if (resetTimer.isExpired() && showcharacter == 1){
-    showcharacter = 0;
+  if (isAlone() && startgame == 0) {
+    startgame = 1;
   }
-  if (buttonSingleClicked() && resetTimer.isExpired()){
-    showcharacter = 1;
-    resetTimer.set(RESET_TIME);
-  }
-  if (buttonDoubleClicked() && showcharacter != 2){ //DEAD
-    showcharacter = 2;
-  } 
-  if (buttonDoubleClicked() && showcharacter == 2){ //RESURRECT
-    resetTimer.set(RESET_TIME);
-    showcharacter = 1;
-  } 
-  FOREACH_FACE(f) { //Detect WOLF, and DEAD
-      if ( !isValueReceivedOnFaceExpired( f ) ) {
-        byte neighborWolf = getWolf(getLastValueReceivedOnFace(f));
-        byte neighborSeer = getSeer(getLastValueReceivedOnFace(f));
-        if (neighborWolf == WY && wolf == WN) {
-          showcharacter = 2;
-        }
-        if (neighborSeer == SY){
-          showcharacter = 1;
-          resetTimer.set(1000);
+  if (startgame == 1) {
+    if (resetTimer.isExpired() && showcharacter == 1){
+      showcharacter = 0;
+    }
+    if (buttonSingleClicked() && resetTimer.isExpired()){
+      showcharacter = 1;
+      resetTimer.set(RESET_TIME);
+    }
+    if (buttonDoubleClicked() && showcharacter != 2){ //DEAD
+      showcharacter = 2;
+    } 
+    if (buttonDoubleClicked() && showcharacter == 2){ //RESURRECT
+      resetTimer.set(RESET_TIME);
+      showcharacter = 1;
+    } 
+    FOREACH_FACE(f) { //Detect WOLF, and DEAD
+        if ( !isValueReceivedOnFaceExpired( f ) ) {
+          byte neighborWolf = getWolf(getLastValueReceivedOnFace(f));
+          byte neighborSeer = getSeer(getLastValueReceivedOnFace(f));
+          if (neighborWolf == WY && wolf == WN) {
+            showcharacter = 2;
+          }
+          if (neighborSeer == SY){
+            showcharacter = 1;
+            resetTimer.set(1000);
+          }
         }
       }
-    }
+  }
 }
 
 void resetLoop() { //Timer to reset the game
