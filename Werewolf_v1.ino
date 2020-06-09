@@ -1,3 +1,18 @@
+/*
+    Werewolf
+    Lead development by FJ Rios
+    original game Werewolf (1986)
+    6 to 12 Blinks (18 Recomended)          
+    6-12 players
+
+    --------------------
+    Blinks by Move38
+    Brought to life via Kickstarter 2018
+    @madewithblinks
+    www.move38.com
+    --------------------
+*/
+
 enum gameState {SETUP, ASIGN, GAME, RESET};
 byte gameState = SETUP;
 int resetPressed;
@@ -22,6 +37,7 @@ byte villager = VY;
 
 
 #define MAX_PLAYERS 12 //Games reset if more Blinks detected
+#define MIN_PLAYERS 6 //Games reset if less Blinks detected
 int sequence[MAX_PLAYERS - 1];
 
 void setup() {  // put your setup code here, to run once:
@@ -120,6 +136,9 @@ void setupLoop() {
     }
   }
   if (Count > MAX_PLAYERS){
+    gameState = RESET;
+  }
+  if (Count > 1 && numNeighbors == 1 && MIN_PLAYERS){
     gameState = RESET;
   }
   if (Count > 1 && numNeighbors == 1){
