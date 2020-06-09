@@ -10,7 +10,7 @@ Based on original Werewolf (1986)
 
 # Setup
 
-Put all blinks in one row.
+Put all blinks in one row.<br/>
 First and last Blink will be colored. Just press one of them.
 Wait until all blinks are OFF
 The game asign roles automatically.
