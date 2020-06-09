@@ -90,19 +90,24 @@ void resetFunction(){
       seer = SN;
       villager = VY;
       Count = 0;
+      startgame = 0;
       gameState = RESET;
       resetTimer.set(RESET_TIME);
-
+      
     }
   
     FOREACH_FACE(f) {
       if ( !isValueReceivedOnFaceExpired( f ) ) { // Have we seen an neighbor
         byte neighborGameState = getGameState(getLastValueReceivedOnFace(f));
         if (neighborGameState == RESET) {
-          resetPressed = 1;
-          gameState = RESET;
-          Count = 0;
-          resetTimer.set(RESET_TIME);
+            resetPressed = 1;
+            wolf = WN;
+            seer = SN;
+            villager = VY;
+            Count = 0;
+            startgame = 0;
+            gameState = RESET;
+            resetTimer.set(RESET_TIME);
         }
       }
     }
