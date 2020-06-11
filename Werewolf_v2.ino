@@ -312,7 +312,7 @@ void setupDisplayLoop() {
 }
 
 void asignDisplayLoop() { 
-  setColor(OFF);
+  setColor(WHITE);
 }
 
 void gameDisplayLoop() { 
