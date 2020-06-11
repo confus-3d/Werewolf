@@ -303,8 +303,11 @@ void setupDisplayLoop() {
   if (isAlone()){
     setColor(OFF);
   }
-  if (numNeighbors > 1){
+  if (numNeighbors > 1 && Count > 0){
     setColor(WHITE);
+  }
+  if (numNeighbors > 1 && Count == 0){
+    setColor(OFF);
   }
 }
 
