@@ -86,6 +86,7 @@ void resetFunction(){
   if (resetPressed == 0) {
     if (buttonLongPressed()) {
       resetPressed = 1;
+      WOLFS = 2;
       wolf = WN;
       seer = SN;
       villager = VY;
@@ -101,6 +102,7 @@ void resetFunction(){
         byte neighborGameState = getGameState(getLastValueReceivedOnFace(f));
         if (neighborGameState == RESET) {
           resetPressed = 1;
+          WOLFS = 2;
           wolf = WN;
           seer = SN;
           villager = VY;
