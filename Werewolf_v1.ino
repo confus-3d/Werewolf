@@ -28,7 +28,7 @@ int brightness = 0;
 int showcharacter = 0; // Turn 1 for debug and see the character asignation
 int startgame = 0;
 
-#define WOLFS 2 //Up to 5 wolfs
+int WOLFS = 2; //Up to 5 wolfs
 enum wolf {WY, WN};
 byte wolf = WN;
 enum seer {SY, SN};
@@ -100,14 +100,14 @@ void resetFunction(){
       if ( !isValueReceivedOnFaceExpired( f ) ) { // Have we seen an neighbor
         byte neighborGameState = getGameState(getLastValueReceivedOnFace(f));
         if (neighborGameState == RESET) {
-            resetPressed = 1;
-            wolf = WN;
-            seer = SN;
-            villager = VY;
-            Count = 0;
-            startgame = 0;
-            gameState = RESET;
-            resetTimer.set(RESET_TIME);
+          resetPressed = 1;
+          wolf = WN;
+          seer = SN;
+          villager = VY;
+          Count = 0;
+          startgame = 0;
+          gameState = RESET;
+          resetTimer.set(RESET_TIME);
         }
       }
     }
@@ -148,11 +148,18 @@ void setupLoop() {
     gameState = RESET;
   }
   if (Count > 1 && numNeighbors == 1){
-    randomizeArray();
-    gameState = ASIGN;
-    setValueSentOnAllFaces(gameState);
+    if (buttonDoubleClicked()){
+          randomizeArray();
+          gameState = ASIGN;
+          setValueSentOnAllFaces(gameState);
+    }
+    if (buttonMultiClicked() && 2 < buttonClickCount() < 6){
+          WOLFS = buttonClickCount();
+          randomizeArray();
+          gameState = ASIGN;
+          setValueSentOnAllFaces(gameState);
+    }
   }
-
 }
 
 void asignLoop() { 
@@ -291,8 +298,11 @@ void setupDisplayLoop() {
     setColorOnFace( dim( GREEN,  255  ), 4);
     setColorOnFace( dim( RED,  255  ), 5); 
   }
-  if (isAlone() || numNeighbors > 1){
+  if (isAlone()){
     setColor(OFF);
+  }
+  if (numNeighbors > 1){
+    setColor(WHITE);
   }
 }
 
